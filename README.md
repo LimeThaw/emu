@@ -14,4 +14,4 @@ every test file into Tests/LinuxMain.swift.
 ## Usage
 
 The code is written for Swift 4. To build and test simply navigate to the root directory
-and run ´swift build && swift test´.
+and run `swift build && swift test`.
