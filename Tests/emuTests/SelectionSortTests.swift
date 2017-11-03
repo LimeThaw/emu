@@ -24,8 +24,23 @@ class selectionSortTests: XCTestCase {
 		XCTAssertEqual(l3, ordered2);
     }
 
+	func typeTests() {
+		let ordered = [1.0, 2.0, 3.0]
+
+		var l1 = [2.0, 1.0, 3.0]
+		XCTAssertEqual(insertionSort(l1), ordered)
+		inplaceInsertionSort(&l1)
+		XCTAssertEqual(l1, ordered);
+
+		let ordered2 = ["a", "d", "f", "s"]
+		var l2 = ["a", "s", "d", "f"]
+		XCTAssertEqual(insertionSort(l2), ordered2)
+		inplaceInsertionSort(&l2)
+		XCTAssertEqual(l2, ordered2);
+	}
 
     static var allTests = [
-        ("SimpleListTests", simpleListTests),
+        ("simpleListTests", simpleListTests),
+        ("typeTests", typeTests),
     ]
 }
