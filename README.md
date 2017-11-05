@@ -17,6 +17,7 @@ To make the project easier to navigate and appear more uniform, all contribution
 to the same naming conventions. For example, the algorithm Bogo Sort should be implemented in
 the function bogoSort() (class for data structures) in the file BogoSort.swift. The
 corresponding tests should be in the class bogoSortTests in the file BogoSortTests.swift.
+All test functions should have meaningful names and start with "test", like testSortingSortedList.
 
 ## Usage
 

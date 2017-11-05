@@ -2,7 +2,7 @@ import XCTest
 @testable import emu
 
 class insertionSortTests: XCTestCase {
-    func simpleListTests() {
+    func testSmallIntLists() {
 
 		let ordered = [1, 2, 3]
 
@@ -24,7 +24,7 @@ class insertionSortTests: XCTestCase {
 		XCTAssertEqual(l3, ordered2);
     }
 
-	func typeTests() {
+	func testFloatsAndStrings() {
 		let ordered = [1.0, 2.0, 3.0]
 
 		var l1 = [2.0, 1.0, 3.0]
