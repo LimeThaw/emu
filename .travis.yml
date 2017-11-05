@@ -1,1 +1,2 @@
 language: swift
+script: swift build && swift test
