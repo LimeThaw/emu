@@ -1,7 +1,7 @@
 import XCTest
 @testable import emu
 
-class selectionSortTests: XCTestCase {
+class insertionSortTests: XCTestCase {
     func simpleListTests() {
 
 		let ordered = [1, 2, 3]

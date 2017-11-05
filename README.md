@@ -11,6 +11,13 @@ functionality, belongs into Sources/emu, and the test file, describing test case
 validating functionality, belongs into Tests/emuTests. You also need to write an entry for
 every test file into Tests/LinuxMain.swift.
 
+## Naming
+
+To make the project easier to navigate and appear more uniform, all contributions should adhere
+to the same naming conventions. For example, the algorithm Bogo Sort should be implemented in
+the function bogoSort() (class for data structures) in the file BogoSort.swift. The
+corresponding tests should be in the class bogoSortTests in the file BogoSortTests.swift.
+
 ## Usage
 
 The code is written for Swift 4. To build and test simply navigate to the root directory

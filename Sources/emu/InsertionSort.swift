@@ -3,7 +3,8 @@
 /**
  *  Insertion sort is a simple sorting algorithm with runtime O(n^2), that works by inserting
  *  the elements one by one into their proper place in the sorted part of the array.
- *  @param	nums	The array you want sorted
+ *  - parameter nums:	The array you want sorted
+ *  - returns:			An array with the same elements but in sorted order.
  */
 func insertionSort<T: Comparable>(_ nums: Array<T>) -> Array<T> {
 
@@ -33,7 +34,8 @@ func insertionSort<T: Comparable>(_ nums: Array<T>) -> Array<T> {
 /**
  *  An in-place variant of insertion sort. Performs the same actions as the other one, but
  *  makes use of inout parameters, so it doesn't have to copy the array.
- *  @param	nums	The array you want sorted
+ *  - parameter nums:	The array you want sorted - as inout parameter it will be modified
+ *							and in sorted order after the call.
  */
 func inplaceInsertionSort<T: Comparable>(_ nums: inout Array<T>) {
 	for i in 1...nums.count-1 {

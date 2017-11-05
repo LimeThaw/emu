@@ -2,6 +2,6 @@ import XCTest
 @testable import emuTests
 
 XCTMain([
-    testCase(selectionSortTests.allTests),
+    testCase(insertionSortTests.allTests),
     testCase(QueueTests.allTests)
 ])
