@@ -40,7 +40,7 @@ class insertionSortTests: XCTestCase {
 	}
 
     static var allTests = [
-        ("simpleListTests", simpleListTests),
-        ("typeTests", typeTests),
+        ("testSmallIntLists", testSmallIntLists),
+        ("testFloatsAndStrings", testFloatsAndStrings),
     ]
 }
