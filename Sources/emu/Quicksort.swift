@@ -1,20 +1,5 @@
 // Created 2017-11-03 by LimeThaw
 
-import XCTest
-
-// Cross-platform rng support
-#if os(Linux)
-@_exported import Glibc
-private func randInt(_ max: Int) -> Int {
-	return Int(random()%max)
-}
-#else
-@_exported import Darwin.C
-private func randInt(_ max: Int) -> Int {
-	return Int(arc4random_uniform(UInt32(max)))
-}
-#endif
-
 /**
  *  Swaps two values in an array.
  *  - parameter arr:	The array containing the elements to swap
@@ -23,7 +8,8 @@ private func randInt(_ max: Int) -> Int {
  */
 private func swap<T>(_ arr: inout Array<T>, _ ind1: Int, _ ind2: Int) {
 	// Make sure indices are in bounds
-	XCTAssertTrue(
+	// Optimized away in release build
+	assert(
 		0 <= ind1 &&
 		0 <= ind2 &&
 		ind1 < arr.count &&
@@ -52,8 +38,25 @@ func quicksort<T: Comparable>(_ nums: inout Array<T>, cutoff: UInt32 = 64) {
  *  - parameter nums:		The array we want to sort
  *  - parameter lowerBound:	The lowest index of an element in the region to be sorted in this iteration
  *  - parameter upperBound:	Same, just the highest index
+ *  - parameter cutoff: The minimal array length for which the algorithm recurses. If the array is
+ *  						shorter, then it's sorted with inplaceInsertionSort(). Should be larger
+ *  						than one.
  */
 private func internalQuicksort<T: Comparable>(_ nums: inout Array<T>, from lowerBound: Int, to upperBound: Int, until cutoff: UInt32) {
+
+	if lowerBound >= upperBound {
+		return
+	}
+
+	assert(
+		0 <= lowerBound &&
+		0 <= upperBound &&
+		lowerBound < nums.count &&
+		upperBound < nums.count
+	)
+
+	let tst = nums.count
+
 	if upperBound-lowerBound < cutoff {
 		partialInsertionSort(&nums, from: lowerBound, to: upperBound)
 		return
@@ -70,11 +73,11 @@ private func internalQuicksort<T: Comparable>(_ nums: inout Array<T>, from lower
 	var high = pivot-1
 	var low = lowerBound
 	while low < high {
-		while nums[low] < nums[pivot] {
+		while low < nums.count && nums[low] < nums[pivot] {
 			low += 1
 		}
-		while nums[high] >= nums[pivot] {
-			high += 1
+		while high >= 0 && nums[high] >= nums[pivot] {
+			high -= 1
 		}
 		if low < high {
 			swap(&nums, low, high)
@@ -84,6 +87,7 @@ private func internalQuicksort<T: Comparable>(_ nums: inout Array<T>, from lower
 
 	// Recursive calls
 	internalQuicksort(&nums, from: lowerBound, to: low-1, until: cutoff)
+	assert(nums.count == tst)
 	internalQuicksort(&nums, from: low+1, to: upperBound, until: cutoff)
 }
 
@@ -96,7 +100,8 @@ private func internalQuicksort<T: Comparable>(_ nums: inout Array<T>, from lower
  *  - parameter to:		The index of the last element you want sorted
  */
 func partialInsertionSort<T: Comparable>(_ nums: inout Array<T>, from: Int, to: Int) {
-	for i in from+1...to {
+	assert(from < to)
+	for i in (from+1)...to {
 		var j = i
 		while(j>from && nums[j-1]>nums[j]) {
 			let tmp = nums[j-1]

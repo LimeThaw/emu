@@ -19,6 +19,10 @@ class quicksortTests: XCTestCase {
 		var l3 = [1, 2, 3, 3, 2, 1, 1, 2, 3]
 		quicksort(&l3)
 		XCTAssertEqual(l3, ordered2);
+
+		var l4 = [7]
+		quicksort(&l4)
+		XCTAssertEqual(l4, [7]);
     }
 
 	func testFloatsAndStrings() {
@@ -34,8 +38,29 @@ class quicksortTests: XCTestCase {
 		XCTAssertEqual(l2, ordered2);
 	}
 
+	func testLongLists() {
+		for i in 5...20 {
+			var list = Array<Int>();
+			for _ in 1...2^^i {
+				list.append(randInt(2^^i));
+			}
+			var sorted = list
+			sorted.sort()
+			quicksort(&list)
+			XCTAssertEqual(sorted, list)
+		}
+	}
+
+	func testEmptyList() {
+		var list = Array<Int>()
+		quicksort(&list)
+		XCTAssertEqual(list, Array<Int>())
+	}
+
     static var allTests = [
         ("testSmallIntLists", testSmallIntLists),
         ("testFloatsAndStrings", testFloatsAndStrings),
+        ("testLongLists", testLongLists),
+        ("testEmptyList", testEmptyList),
     ]
 }
