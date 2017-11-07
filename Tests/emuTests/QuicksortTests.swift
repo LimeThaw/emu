@@ -39,7 +39,7 @@ class quicksortTests: XCTestCase {
 	}
 
 	func testLongLists() {
-		for i in 5...20 {
+		for i in 5...15 {
 			var list = Array<Int>();
 			for _ in 1...2^^i {
 				list.append(randInt(2^^i));
