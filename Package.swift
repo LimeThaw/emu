@@ -20,14 +20,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "emu",
-            dependencies: ["functional", "threadsafe"]),
+            dependencies: []),
         .testTarget(
             name: "emuTests",
             dependencies: ["emu"]),
-        .target(name: "functional", dependencies: []),
-        .testTarget(name: "functionalTests", dependencies: ["functional"]),
-        .target(name: "threadsafe", dependencies: []),
-        .testTarget(name: "threadsafeTests", dependencies: ["threadsafe"])
-    ],
-    swiftLanguageVersions: [4]
+    ]
 )
