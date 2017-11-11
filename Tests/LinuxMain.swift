@@ -3,5 +3,6 @@ import XCTest
 
 XCTMain([
     testCase(insertionSortTests.allTests),
-    testCase(QueueTests.allTests)
+    testCase(QueueTests.allTests),
+    testCase(PFAVLTree.allTests)
 ])
