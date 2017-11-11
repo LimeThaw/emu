@@ -10,7 +10,8 @@ class PFAVLTreeTest : XCTestCase {
        return [
             ("test_equals", test_equals),
             ("test_init", test_init),
-            ("test_height", test_height)
+            ("test_height", test_height),
+            ("test_value", test_value)
         ]
     }()
     #endif
@@ -62,5 +63,16 @@ class PFAVLTreeTest : XCTestCase {
         XCTAssert(two.height == 2)
         XCTAssert(unbalanced1.height == 3)
         XCTAssert(unbalanced2.height == 3)
+    }
+    
+    /**
+     Tests the value property
+     */
+    func test_value() {
+        XCTAssert(empty.value == nil)
+        XCTAssert(one.value! == 0)
+        XCTAssert(two.value! == 1)
+        XCTAssert(unbalanced1.value! == 2)
+        XCTAssert(unbalanced2.value! == 0)
     }
 }
