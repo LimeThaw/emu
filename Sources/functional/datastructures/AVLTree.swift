@@ -30,7 +30,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      - parameter r: The right subtree.
      */
     public init(_ val: T, l: PFAVLTree<T>, r: PFAVLTree<T>){
-        self = .Node(val, l, r, max(l.height(), r.height())+1)
+        self = .Node(val, l, r, max(l.height, r.height)+1)
     }
 
     /// The root value of this tree.
@@ -94,7 +94,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
             let next = l.removeSmallest()
             let retTree = {next.0 == nil ? r : PFAVLTree<T>(v, l: next.1, r: r)}
             let retVal = next.1 == .Leaf ? v : next.0
-            return (retVal, retTree().balance())
+            return (retVal, retTree().rebalance())
         case .Leaf:
             return (nil, .Leaf)
         }
@@ -112,7 +112,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
             let next = r.removeLargest()
             let retTree = next.0 == nil ? l : PFAVLTree<T>(v, l: l, r: next.1)
             let retVal = next.1 == .Leaf ? v : next.0
-            return (retVal, retTree.balance())
+            return (retVal, retTree.rebalance())
         case .Leaf:
             return (nil, .Leaf)
         }
