@@ -196,6 +196,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      Rotates this tree to the right or to the left, such that it is in a centered balance afterwards,
      i.e. |height(l)-height(r)| <= 1,
      where l indicates the left subtree of the node and r indicates the right subtree of the node.
+     The tree must always have a balance between and including -2 and 2.
      - returns: The rebalanced tree.
      */
     private func rebalance() -> PFAVLTree<T> {
