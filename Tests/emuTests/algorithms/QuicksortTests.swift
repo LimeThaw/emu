@@ -40,14 +40,35 @@ class quicksortTests: XCTestCase {
 
 	func testLongLists() {
 		for i in 5...15 {
-			var list = Array<Int>();
-			for _ in 1...2^^i {
-				list.append(randInt(2^^i));
+            let max = 2^^i
+            let range = Array(1...max)
+			var list = [1]
+            
+            // test already sorted list
+			for i in range {
+				list.append(i)
 			}
 			var sorted = list
-			sorted.sort()
-			quicksort(&list)
-			XCTAssertEqual(sorted, list)
+            quicksort(&list)
+            XCTAssertEqual(sorted, list)
+            
+            // test reversed list
+            list = []
+            for i in range.reversed() {
+                list.append(i)
+            }
+            quicksort(&list)
+            XCTAssertEqual(range, list)
+            
+            // test general unsorted list
+            for i in range {
+                let index = ((i*67) % max)^^2 % max
+                list.append(range[index])
+            }
+            sorted = list
+            sorted.sort()
+            quicksort(&list)
+            XCTAssertEqual(sorted, list)
 		}
 	}
 
