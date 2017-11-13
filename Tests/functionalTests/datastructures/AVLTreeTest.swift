@@ -25,17 +25,17 @@ class PFAVLTreeTest : XCTestCase {
     #endif
     
     // test trees
-    let empty: PFAVLTree<Int> = .Leaf
-    let one: PFAVLTree<Int> = .Node(0, .Leaf, .Leaf, 1)
-    let two: PFAVLTree<Int> = .Node(1, .Node(0, .Leaf, .Leaf, 1), .Leaf, 2)
-    let twoRight: PFAVLTree<Int> = .Node(0, .Node(1, .Leaf, .Leaf, 1), .Leaf, 2)
+    let empty: PFAVLTree<Int> = .Empty
+    let one: PFAVLTree<Int> = .Node(0, .Empty, .Empty, 1)
+    let two: PFAVLTree<Int> = .Node(1, .Node(0, .Empty, .Empty, 1), .Empty, 2)
+    let twoRight: PFAVLTree<Int> = .Node(0, .Empty, .Node(1, .Empty, .Empty, 1), 2)
     let unbalanced1: PFAVLTree<Int> = .Node(2,
-                                            .Node(1, .Node(0, .Leaf, .Leaf, 1), .Leaf, 2),
-                                            .Leaf,
+                                            .Node(1, .Node(0, .Empty, .Empty, 1), .Empty, 2),
+                                            .Empty,
                                             3)
     let unbalanced2: PFAVLTree<Int> = .Node(0,
-                                            .Leaf,
-                                            .Node(2, .Node(1, .Leaf, .Leaf, 1), .Leaf, 2),
+                                            .Empty,
+                                            .Node(2, .Node(1, .Empty, .Empty, 1), .Empty, 2),
                                             3)
     
     lazy var all = [empty, one, two, twoRight, unbalanced1, unbalanced2]
@@ -143,13 +143,13 @@ class PFAVLTreeTest : XCTestCase {
         XCTAssertEqual(one.removeSmallest().0, 0)
         XCTAssertEqual(one.removeSmallest().1, empty)
         XCTAssertEqual(two.removeSmallest().0, 0)
-        XCTAssertEqual(two.removeSmallest().1, .Node(1, .Leaf, .Leaf, 1))
+        XCTAssertEqual(two.removeSmallest().1, .Node(1, .Empty, .Empty, 1))
         XCTAssertEqual(twoRight.removeSmallest().0, 0)
-        XCTAssertEqual(twoRight.removeSmallest().1, .Node(1, .Leaf, .Leaf, 1))
+        XCTAssertEqual(twoRight.removeSmallest().1, .Node(1, .Empty, .Empty, 1))
         XCTAssertEqual(unbalanced1.removeSmallest().0, 0)
-        XCTAssertEqual(unbalanced1.removeSmallest().1, .Node(2, .Node(1, .Leaf, .Leaf, 1), .Leaf, 2))
+        XCTAssertEqual(unbalanced1.removeSmallest().1, .Node(2, .Node(1, .Empty, .Empty, 1), .Empty, 2))
         XCTAssertEqual(unbalanced2.removeSmallest().0, 0)
-        XCTAssertEqual(unbalanced2.removeSmallest().1, .Node(2, .Node(1, .Leaf, .Leaf, 1), .Leaf, 2))
+        XCTAssertEqual(unbalanced2.removeSmallest().1, .Node(2, .Node(1, .Empty, .Empty, 1), .Empty, 2))
     }
     
     /**
@@ -161,13 +161,13 @@ class PFAVLTreeTest : XCTestCase {
         XCTAssertEqual(one.removeLargest().0, 0)
         XCTAssertEqual(one.removeLargest().1, empty)
         XCTAssertEqual(two.removeLargest().0, 1)
-        XCTAssertEqual(two.removeLargest().1, .Node(0, .Leaf, .Leaf, 1))
+        XCTAssertEqual(two.removeLargest().1, .Node(0, .Empty, .Empty, 1))
         XCTAssertEqual(twoRight.removeLargest().0, 1)
-        XCTAssertEqual(twoRight.removeLargest().1, .Node(0, .Leaf, .Leaf, 1))
+        XCTAssertEqual(twoRight.removeLargest().1, .Node(0, .Empty, .Empty, 1))
         XCTAssertEqual(unbalanced1.removeLargest().0, 2)
-        XCTAssertEqual(unbalanced1.removeLargest().1, .Node(1, .Node(0, .Leaf, .Leaf, 1), .Leaf, 2))
+        XCTAssertEqual(unbalanced1.removeLargest().1, .Node(1, .Node(0, .Empty, .Empty, 1), .Empty, 2))
         XCTAssertEqual(unbalanced2.removeLargest().0, 2)
-        XCTAssertEqual(unbalanced2.removeLargest().1, .Node(0, .Leaf, .Node(1, .Leaf, .Leaf, 1), 2))
+        XCTAssertEqual(unbalanced2.removeLargest().1, .Node(0, .Empty, .Node(1, .Empty, .Empty, 1), 2))
     }
     
     /**
@@ -175,8 +175,8 @@ class PFAVLTreeTest : XCTestCase {
      */
     func test_insert() {
         XCTAssertEqual(empty.insert(0), one)
-        XCTAssertEqual(one.insert(1), .Node(0, .Leaf, .Node(1, .Leaf, .Leaf, 1), 2))
-        XCTAssertEqual(two.insert(2), .Node(1, .Node(0, .Leaf, .Leaf, 1), .Node(2, .Leaf, .Leaf, 1), 2))
+        XCTAssertEqual(one.insert(1), .Node(0, .Empty, .Node(1, .Empty, .Empty, 1), 2))
+        XCTAssertEqual(two.insert(2), .Node(1, .Node(0, .Empty, .Empty, 1), .Node(2, .Empty, .Empty, 1), 2))
         XCTAssertEqual(two.insert(1), two)
         var res = two.insert(-1)
         XCTAssertEqual(res.value, 0)
@@ -200,7 +200,7 @@ class PFAVLTreeTest : XCTestCase {
         XCTAssertEqual(empty.remove(0), empty)
         XCTAssertEqual(one.remove(0), empty)
         XCTAssertEqual(two.remove(1), one)
-        XCTAssertEqual(two.remove(0), .Node(1, .Leaf, .Leaf, 1))
+        XCTAssertEqual(two.remove(0), .Node(1, .Empty, .Empty, 1))
         XCTAssertEqual(two.remove(-1), two)
         var res = two.insert(-2).insert(-1).remove(1)
         XCTAssertEqual(res.value, -1)

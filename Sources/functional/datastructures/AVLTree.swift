@@ -9,18 +9,20 @@
  A purely functional implementation of an [AVL tree](https://en.wikipedia.org/wiki/AVL_tree).
  */
 public enum PFAVLTree<T: Comparable>: Equatable {
-    /// A leaf contains no value and has height zero
-    case Leaf
+    /// A empty tree (contains no value and has height 0).
+    case Empty
     /**
      A node contains a value, a left subtree, a right subtree and a height.
+     Do not construct a AVL-Tree with this case!
+     Initialize a tree with `init()` and use the provided functions to get the tree you want.
      */
     indirect case Node(T, PFAVLTree<T>, PFAVLTree<T>, Int)
 
     /**
-     Creates a empty AVL tree (a leaf).
+     Creates a empty AVL tree.
      */
     public init(){
-        self = .Leaf
+        self = .Empty
     }
 
     /**
@@ -36,7 +38,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
     /// The root value of this tree.
     public var value: T? {
         switch self {
-        case .Leaf:
+        case .Empty:
             return nil
         case let .Node(val, _, _, _):
             return val
@@ -86,19 +88,19 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      Removes the smallest value from this tree and returns it.
      - returns: A tuple with the smallest value of this tree as its first argument,
      and the new tree without this value as its second argument.
-     If this tree is a leaf, then `(nil, .Leaf)` is returned.
+     If this tree is empty, then `(nil, .Empty)` is returned.
      */
     public func removeSmallest() -> (T?, PFAVLTree<T>) {
         switch self {
         case let .Node(v, l, r, _):
-            if l == .Leaf {
+            if l == .Empty {
                 return (v, r)
             } else {
                 let next = l.removeSmallest()
                 return (next.0, PFAVLTree<T>(v, l: next.1, r: r).rebalance())
             }
-        case .Leaf:
-            return (nil, .Leaf)
+        case .Empty:
+            return (nil, .Empty)
         }
     }
 
@@ -106,30 +108,30 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      Removes the largest value from this tree and returns it.
      - returns: A tuple with the largest value of this tree as its first argument,
      and the new tree without this value as its second argument.
-     If this tree is a leaf, then `(nil, .Leaf)` is returned.
+     If this tree is empty, then `(nil, .Empty)` is returned.
      */
     public func removeLargest() -> (T?, PFAVLTree<T>) {
         switch self {
         case let .Node(v, l, r, _):
-            if r == .Leaf {
+            if r == .Empty {
                 return (v, l)
             } else {
                 let next = r.removeLargest()
                 return (next.0, PFAVLTree<T>(v, l: l, r: next.1).rebalance())
             }
-        case .Leaf:
-            return (nil, .Leaf)
+        case .Empty:
+            return (nil, .Empty)
         }
     }
 
     /**
      The height of this tree.
-     For a leaf, height = 0 and for a node, height = 1+max(height(l), height(r)),
+     For a empty tree, height = 0 and for a node, height = 1+max(height(l), height(r)),
      where l indicates the left subtree of the node and r indicates the right subtree of the node.
      */
     public var height: Int {
         switch self {
-        case .Leaf:
+        case .Empty:
             return 0
         case let .Node(_, _, _, b):
             return b
@@ -149,7 +151,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
         switch self {
         case let .Node(_, l, r, _):
             return r.height-l.height
-        case .Leaf:
+        case .Empty:
             return 0
         }
     }
@@ -160,7 +162,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      */
     private func rotateRight() -> PFAVLTree<T> {
         switch self {
-        case .Leaf:
+        case .Empty:
             return self
         case let .Node(v, l, r, _):
             let newL = l.balance > 0 ? l.rotateLeft() : l
@@ -168,7 +170,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
             case let .Node(vl, ll, rl, _):
                 let nuR = PFAVLTree<T>(v, l: rl, r: r)
                 return PFAVLTree<T>(vl, l: ll, r: nuR)
-            case .Leaf:
+            case .Empty:
                 assert(false)
                 return self
             }
@@ -187,11 +189,11 @@ public enum PFAVLTree<T: Comparable>: Equatable {
             case let .Node(vr, lr, rr, _):
                 let nuL = PFAVLTree<T>(v, l: l, r: lr)
                 return PFAVLTree<T>(vr, l: nuL, r: rr)
-            case .Leaf:
+            case .Empty:
                 assert(false)
                 return self
             }
-        case .Leaf:
+        case .Empty:
             return self
         }
     }
@@ -205,7 +207,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      */
     private func rebalance() -> PFAVLTree<T> {
         switch self {
-        case .Leaf:
+        case .Empty:
             return self
         case .Node:
             switch balanceType as BalanceType {
@@ -227,8 +229,8 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      */
     public func insert(_ val: T) -> PFAVLTree<T> {
         switch self {
-        case .Leaf:
-            return .Node(val, .Leaf, .Leaf, 1)
+        case .Empty:
+            return .Node(val, .Empty, .Empty, 1)
         case let .Node(v, l, r, _):
             let newL = val < v ? l.insert(val) : l
             let newR = val > v ? r.insert(val) : r
@@ -244,26 +246,23 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      */
     public func remove(_ val: T) -> PFAVLTree<T> {
         switch self {
-        case .Leaf:
+        case .Empty:
             return self
         case let .Node(v, l, r, _):
             if v == val {
-                let lh = l.height
-                let rh = r.height
-                if lh == 0 && rh == 0 {
-                    return .Leaf
+                if self.height == 1 { // self is a leaf
+                    return .Empty
                 }
-                if lh > rh {
+                if self.balance < 0 { // left has more elements
                     let delL = l.removeLargest()
-                    return PFAVLTree<T>(delL.0!, l: delL.1, r: r).rebalance()
-                } else {
-                    let delR = r.removeSmallest()
-                    return PFAVLTree<T>(delR.0!, l: l, r: delR.1).rebalance()
+                    return PFAVLTree<T>(delL.0!, l: delL.1, r: r)
                 }
+                let delR = r.removeSmallest()
+                return PFAVLTree<T>(delR.0!, l: l, r: delR.1)
             } else if val > v {
-                return PFAVLTree<T>(v, l: l, r: r.remove(val))
+                return PFAVLTree<T>(v, l: l, r: r.remove(val)).rebalance()
             } else {
-                return PFAVLTree<T>(v, l: l.remove(val), r: r)
+                return PFAVLTree<T>(v, l: l.remove(val), r: r).rebalance()
             }
         }
     }
@@ -271,7 +270,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
 
 public func ==<T>(lhs: PFAVLTree<T>, rhs: PFAVLTree<T>) -> Bool {
     switch (lhs, rhs) {
-    case (.Leaf, .Leaf):
+    case (.Empty, .Empty):
         return true
     case (let .Node(v1, l1, r1, _), let .Node(v2, l2, r2, _)):
         return v1 == v2 && l1 == l2 && r1 == r2;
