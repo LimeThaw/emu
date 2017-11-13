@@ -14,6 +14,9 @@ class PFAVLTreeTest : XCTestCase {
             ("test_value", test_value),
             ("test_find", test_find),
             ("test_contains", test_contains),
+            ("test_balance", test_balance),
+            ("test_rotate", test_rotate),
+            ("test_rebalance", test_rebalance),
             ("test_smallest", test_smallest),
             ("test_largest", test_largest),
             ("test_removeSmallest", test_removeSmallest),
@@ -108,6 +111,56 @@ class PFAVLTreeTest : XCTestCase {
         XCTAssert(!one.contains(-1))
         XCTAssert(!unbalanced2.contains(5))
         XCTAssert(unbalanced2.contains(1))
+    }
+    
+    /**
+     Tests the internal balance property
+     */
+    func test_balance() {
+        XCTAssertEqual(empty.balance, 0)
+        XCTAssertEqual(one.balance, 0)
+        XCTAssertEqual(two.balance, -1)
+        XCTAssertEqual(twoRight.balance, 1)
+        XCTAssertEqual(unbalanced1.balance, -2)
+        XCTAssertEqual(unbalanced2.balance, 2)
+    }
+    
+    /**
+     Tests the internal rotateRight and rotateLeft functions
+     */
+    func test_rotate() {
+        XCTAssertEqual(empty.rotateLeft(), empty)
+        XCTAssertEqual(empty.rotateRight(), empty)
+        XCTAssertEqual(one.rotateLeft(), empty)
+        XCTAssertEqual(one.rotateRight(), empty)
+        XCTAssertEqual(two.rotateLeft(), empty)
+        XCTAssertEqual(two.rotateRight(), twoRight)
+        XCTAssertEqual(twoRight.rotateLeft(), two)
+        XCTAssertEqual(twoRight.rotateRight(), empty)
+        XCTAssertEqual(unbalanced1.rotateLeft(), empty)
+        var res = unbalanced1.rotateRight()
+        XCTAssertEqual(res.height, 2)
+        XCTAssertEqual(res.value, 1)
+        res = unbalanced2.rotateLeft()
+        XCTAssertEqual(res.height, 2)
+        XCTAssertEqual(res.value, 1)
+        XCTAssertEqual(unbalanced2.rotateRight(), empty)
+    }
+    
+    /**
+     Tests the internal rebalance function
+     */
+    func test_rebalance() {
+        XCTAssertEqual(empty.rebalance(), empty)
+        XCTAssertEqual(one.rebalance(), one)
+        XCTAssertEqual(two.rebalance(), two)
+        XCTAssertEqual(twoRight.rebalance(), twoRight)
+        var res = unbalanced1.rebalance()
+        XCTAssertEqual(res.height, 2)
+        XCTAssertEqual(res.value, 1)
+        res = unbalanced2.rebalance()
+        XCTAssertEqual(res.height, 2)
+        XCTAssertEqual(res.value, 1)
     }
     
     /**

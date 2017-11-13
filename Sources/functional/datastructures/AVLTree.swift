@@ -147,7 +147,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      The balance of this tree, which is height(r) - height(l),
      where l indicates the left subtree of the node and r indicates the right subtree of the node.
      */
-    private var balance: Int {
+    var balance: Int {
         switch self {
         case let .Node(_, l, r, _):
             return r.height-l.height
@@ -158,9 +158,9 @@ public enum PFAVLTree<T: Comparable>: Equatable {
 
     /**
      Rotates this tree once to the right.
-     - returns: The rotated tree.
+     - returns: The rotated tree or `.Empty` if the left subtree is empty.
      */
-    private func rotateRight() -> PFAVLTree<T> {
+    func rotateRight() -> PFAVLTree<T> {
         switch self {
         case .Empty:
             return self
@@ -171,17 +171,16 @@ public enum PFAVLTree<T: Comparable>: Equatable {
                 let nuR = PFAVLTree<T>(v, l: rl, r: r)
                 return PFAVLTree<T>(vl, l: ll, r: nuR)
             case .Empty:
-                assert(false)
-                return self
+                return .Empty
             }
         }
     }
 
     /**
      Rotates this tree once to the left.
-     - returns: The rotated tree.
+     - returns: The rotated tree or `.Empty` if the right subtree is empty.
      */
-    private func rotateLeft() -> PFAVLTree<T> {
+    func rotateLeft() -> PFAVLTree<T> {
         switch self {
         case let .Node(v, l, r, _):
             let newR = r.balance < 0 ? r.rotateRight() : r
@@ -190,8 +189,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
                 let nuL = PFAVLTree<T>(v, l: l, r: lr)
                 return PFAVLTree<T>(vr, l: nuL, r: rr)
             case .Empty:
-                assert(false)
-                return self
+                return .Empty
             }
         case .Empty:
             return self
@@ -205,7 +203,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      The tree must always have a balance between and including -2 and 2.
      - returns: The rebalanced tree.
      */
-    private func rebalance() -> PFAVLTree<T> {
+    func rebalance() -> PFAVLTree<T> {
         switch self {
         case .Empty:
             return self
