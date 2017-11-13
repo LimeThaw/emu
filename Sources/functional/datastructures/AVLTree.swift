@@ -91,10 +91,12 @@ public enum PFAVLTree<T: Comparable>: Equatable {
     public func removeSmallest() -> (T?, PFAVLTree<T>) {
         switch self {
         case let .Node(v, l, r, _):
-            let next = l.removeSmallest()
-            let retTree = next.0 == nil ? r : PFAVLTree<T>(v, l: next.1, r: r)
-            let retVal = next.1 == .Leaf ? v : next.0
-            return (retVal, retTree.rebalance())
+            if l == .Leaf {
+                return (v, r)
+            } else {
+                let next = l.removeSmallest()
+                return (next.0, PFAVLTree<T>(v, l: next.1, r: r).rebalance())
+            }
         case .Leaf:
             return (nil, .Leaf)
         }
@@ -109,10 +111,12 @@ public enum PFAVLTree<T: Comparable>: Equatable {
     public func removeLargest() -> (T?, PFAVLTree<T>) {
         switch self {
         case let .Node(v, l, r, _):
-            let next = r.removeLargest()
-            let retTree = next.0 == nil ? l : PFAVLTree<T>(v, l: l, r: next.1)
-            let retVal = next.1 == .Leaf ? v : next.0
-            return (retVal, retTree.rebalance())
+            if r == .Leaf {
+                return (v, l)
+            } else {
+                let next = r.removeLargest()
+                return (next.0, PFAVLTree<T>(v, l: l, r: next.1).rebalance())
+            }
         case .Leaf:
             return (nil, .Leaf)
         }
