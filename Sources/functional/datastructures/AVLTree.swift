@@ -29,7 +29,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
      - parameter l: The left subtree.
      - parameter r: The right subtree.
      */
-    public init(_ val: T, l: PFAVLTree<T>, r: PFAVLTree<T>){
+    init(_ val: T, l: PFAVLTree<T>, r: PFAVLTree<T>){
         self = .Node(val, l, r, max(l.height, r.height)+1)
     }
 
@@ -92,9 +92,9 @@ public enum PFAVLTree<T: Comparable>: Equatable {
         switch self {
         case let .Node(v, l, r, _):
             let next = l.removeSmallest()
-            let retTree = {next.0 == nil ? r : PFAVLTree<T>(v, l: next.1, r: r)}
+            let retTree = next.0 == nil ? r : PFAVLTree<T>(v, l: next.1, r: r)
             let retVal = next.1 == .Leaf ? v : next.0
-            return (retVal, retTree().rebalance())
+            return (retVal, retTree.rebalance())
         case .Leaf:
             return (nil, .Leaf)
         }
@@ -183,7 +183,7 @@ public enum PFAVLTree<T: Comparable>: Equatable {
             case let .Node(vr, lr, rr, _):
                 let nuL = PFAVLTree<T>(v, l: l, r: lr)
                 return PFAVLTree<T>(vr, l: nuL, r: rr)
-            default:
+            case .Leaf:
                 assert(false)
                 return self
             }
