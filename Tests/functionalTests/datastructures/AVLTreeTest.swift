@@ -4,7 +4,7 @@ import XCTest
 /**
  Tests for the purely functional AVLTree
  */
-class PFAVLTreeTest : XCTestCase {
+class PFAVLTreeTests : XCTestCase {
     #if os(Linux)
     static var allTests = {
        return [
