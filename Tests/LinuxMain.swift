@@ -1,8 +1,10 @@
 import XCTest
 @testable import emuTests
+@testable import functionalTests
 
 XCTMain([
     testCase(insertionSortTests.allTests),
-    testCase(quicksortTests.allTests),
-    testCase(QueueTests.allTests)
+    testCase(QueueTests.allTests),
+    testCase(PFAVLTreeTests.allTests),
+    testCase(quicksortTests.allTests)
 ])
