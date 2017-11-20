@@ -6,10 +6,15 @@ it in their programs.
 
 ## Structure
 
+The library is partitioned into three submodules. The first one is just called "emu" and contains
+basic data sctructures and algorithms. The second is called "functional" and contains code that is
+[purely functional](https://en.wikipedia.org/wiki/Purely_functional_programming#Properties_of_purely_functional_program).
+The third one is called "threadsafe" and contains - you guessed it - thread safe code.
+
 For each element, there should be a source file and a test file. The source file, describing
-functionality, belongs into Sources/emu, and the test file, describing test cases for
+functionality, belongs into Sources/submodule/emu, and the test file, describing test cases for
 validating functionality, belongs into Tests/emuTests. You also need to write an entry for
-every test file into Tests/LinuxMain.swift.
+every test file into Tests/submodule/LinuxMain.swift.
 
 ## Naming
 
