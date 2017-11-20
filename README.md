@@ -10,11 +10,13 @@ The library is partitioned into three submodules. The first one is just called "
 basic data sctructures and algorithms. The second is called "functional" and contains code that is
 [purely functional](https://en.wikipedia.org/wiki/Purely_functional_programming#Properties_of_purely_functional_program).
 The third one is called "threadsafe" and contains - you guessed it - thread safe code.
+Additionally, each submodule is divided into two categories: datastructures and algorithms. Their
+meaning should be rather self explanatory.
 
 For each element, there should be a source file and a test file. The source file, describing
-functionality, belongs into Sources/submodule/emu, and the test file, describing test cases for
-validating functionality, belongs into Tests/emuTests. You also need to write an entry for
-every test file into Tests/submodule/LinuxMain.swift.
+functionality, belongs into Sources/submodule/category/, and the test file, describing test cases for
+validating functionality, belongs into Tests/submoduleTests/category/. You also need to write an entry for
+every test file into Tests/LinuxMain.swift.
 
 ## Naming
 
