@@ -15,7 +15,7 @@ import Dispatch
  To conform to this protocol, the function `next() -> UInt64` must be implemented.
  All other functions provide default implementations.
  However for performance reasons,
- a custom random number generator might feel the need to override the default behavior for performance reasons.
+ a custom random number generator might feel the need to override the default behavior.
  */
 public protocol Random {
     
