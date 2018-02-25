@@ -10,15 +10,15 @@
  ## Overview
  
  RAHT stands for Random Access Hash Table, while random access is understood here, that this datastructure can output a random entry efficiently.
-
+ 
  Every entry is stored inside the `data` array. The entries of the `table` dictionary serve as pointers to locate a given entry in `data` through its `hashValue`.
  This configuration enables the relocation of elements in `data` and the arbitrary assignment of a location in `data` for elements.
  The density is defined by the number of elements in the collection (`count`) divided by the size (currently available slots) of `data`. An empty `data` has a density of 1.
-
+ 
  When inserting an element, a random (empty) slot in `data` is searched and the element is inserted there.
  If the density is above 0.7, the element is appended to the end of `data`.
  After insertion in `data` a entry is added to `table` which maps the elements `hashValue` to its location in `data`.
-
+ 
  When deleting an element, the according element is searched in `data` via its entry in `table`. Both entries, the one in `data` and the one in `table` are removed. Afterwards a shrink operation is executed that works as follows:
  When the density is below 0.3 and the uppermost entry of `data` is occupied, this entry is moved to a random other location in `data`. Afterwards the uppermost (empty) slots are removed, until one is occupied, or the density reaches 0.5.
  The shrink operation assures, that the density is never below 0.3 and therefore there is a low number of expected iterations until an element is found in `table` during random access.
@@ -53,10 +53,10 @@ public struct RAHT<Entry: Hashable> {
             rand = CRand()
         }
     }
-
+    
     /// Indicates the density, which is 1, when `count` is 0 and the ratio of occupied slots and total slots otherwise.
     private var density: Float { return data.count > 0 ? Float(count)/Float(data.count) : 1}
-
+    
     /**
      Returns the location of a random entry in `data` which satisfies the given condition.
      This function does not guarantee termination, since termination depends on the condition.
@@ -71,8 +71,8 @@ public struct RAHT<Entry: Hashable> {
         } while !condition(data[loc])
         return loc
     }
-
-
+    
+    
     /**
      Inserts a new entry into this RAHT.
      If there is already an entry with the hash of the provided entry, it gets replaced with the new entry.
@@ -93,7 +93,7 @@ public struct RAHT<Entry: Hashable> {
             }
         }
     }
-
+    
     /**
      The shrink operation, which makes the datastrucutre more compact.
      If the density is below 0.3, the topmost entry of `data` is replaced to a random different location, if it is not nil.
@@ -111,7 +111,7 @@ public struct RAHT<Entry: Hashable> {
             data.removeLast()
         }
     }
-
+    
     /**
      Removes the element corresponding to a given hash.
      - parameter hash: The hash value of the element to be removed
@@ -127,7 +127,7 @@ public struct RAHT<Entry: Hashable> {
         }
         return nil
     }
-
+    
     /**
      Removes a given element by its hash.
      - parameter val: The element to be removed.
@@ -137,7 +137,7 @@ public struct RAHT<Entry: Hashable> {
     public mutating func remove(_ val: Entry) -> Entry? {
         return remove(fromHash: val.hashValue)
     }
-
+    
     /**
      Checks whether this RAHT contains a element with a provided hash.
      - parameter hash: The hash to be checked against
@@ -146,7 +146,7 @@ public struct RAHT<Entry: Hashable> {
     public func has(with hash: Int) -> Bool {
         return table[hash] != nil
     }
-
+    
     /**
      Returns the element in this RAHT corresponding to the given hash.
      - parameter hash: The hash indicating the element that should be removed from this RAHT
@@ -158,7 +158,7 @@ public struct RAHT<Entry: Hashable> {
         }
         return nil
     }
-
+    
     /**
      Returns a random element of this RAHT.
      - returns: A random element of this RAHT.
@@ -171,8 +171,17 @@ public struct RAHT<Entry: Hashable> {
     }
 }
 
-extension RAHT: Sequence {
-    public func makeIterator() -> DictionaryIterator<Int, Entry> {
-        return data.makeIterator()
+/**
+ This extension makes RAHT conform to the collection protocol.
+ In principle this just wraps the necessary functions of the `table` dictionary, but providing the according entry of the RAHT instead of the entry in `table` through the subscript.
+ */
+extension RAHT: Collection {
+    public var startIndex: DictionaryIndex<Int, Int> { return table.startIndex }
+    public var endIndex: DictionaryIndex<Int, Int> { return table.endIndex }
+    public subscript(i: DictionaryIndex<Int, Int>) -> Entry {
+        return data[table[i].value]!
+    }
+    public func index(after i: DictionaryIndex<Int, Int>) -> DictionaryIndex<Int, Int> {
+        return table.index(after: i)
     }
 }
