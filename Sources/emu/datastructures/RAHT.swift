@@ -143,7 +143,7 @@ public struct RAHT<Entry: Hashable> {
      - parameter hash: The hash to be checked against
      - returns: `true` if this RAHT contains a element with `hash`, `false` otherwise
      */
-    public func has(with hash: Int) -> Bool {
+    public func has(withHash hash: Int) -> Bool {
         return table[hash] != nil
     }
     
@@ -152,7 +152,7 @@ public struct RAHT<Entry: Hashable> {
      - parameter hash: The hash indicating the element that should be removed from this RAHT
      - returns: The removed element, or `nil` if there is no element with the provided hash
      */
-    public func get(from hash: Int) -> Entry? {
+    public func get(fromHash hash: Int) -> Entry? {
         if let loc = table[hash] {
             return data[loc]
         }
