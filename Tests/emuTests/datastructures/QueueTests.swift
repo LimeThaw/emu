@@ -13,7 +13,8 @@ class QueueTests: XCTestCase {
     static var allTests = [
         ("testSimpleInOut", testSimpleInOut),
         ("testInOut", testInOut),
-        ("testCount", testCount)
+        ("testCount", testCount),
+        ("testSequence", testSequence)
     ]
     
     /// the test array for the following tests
