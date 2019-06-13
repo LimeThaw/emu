@@ -1,6 +1,7 @@
 import XCTest
 @testable import emuTests
 @testable import functionalTests
+//@testable import threadsafeTests
 
 XCTMain([
     testCase(insertionSortTests.allTests),

@@ -1,3 +1,5 @@
+import Rainbow
+
 /**
  A simple container for a 2 dimensional matrix of constant size with numeric values.
  All matrices are row-major, so the first coordinate indexes the row, and the second
@@ -33,7 +35,7 @@ public struct Matrix<T: Numeric> {
             if 0<=x && x<size.0 && 0<=y && y<size.1 {
                 data[x][y] = newValue!
             } else {
-                print("Matrix index out of range: [\(x), \(y)]")
+                print("Matrix index out of range: [\(x), \(y)]".yellow.bold)
                 //Thread.callStackSymbols.forEach{print($0)}
             }
         }
