@@ -30,5 +30,5 @@ let package = Package(
         .target(name: "threadsafe", dependencies: []),
         //.testTarget(name: "threadsafeTests", dependencies: ["threadsafe"])
     ],
-    swiftLanguageVersions: [5]
+    swiftLanguageVersions: [4]
 )

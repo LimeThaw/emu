@@ -8,12 +8,12 @@ import Rainbow
 public struct Matrix<T: Numeric & Equatable> : Equatable {
 
     /// The size of the matrix
-    let size: (Int, Int)
+    public let size: (Int, Int)
     /// The values in the matrix
     private var data: [[T]]
     
     /// Default initializer, creating a matrix where every entry is a given default value
-    init(h: Int, w: Int, value: T) {
+    public init(h: Int, w: Int, value: T) {
         size = (h, w)
         data = Array(repeating: Array(repeating: value, count: w), count: h)
     }
@@ -22,7 +22,7 @@ public struct Matrix<T: Numeric & Equatable> : Equatable {
      Initializer creating a diagoal matrix where the values on the diagonal are
      given as a vector and the rest of the entries are a given default value
      */
-    init(diag vec: [T], def val: T) {
+    public init(diag vec: [T], def val: T) {
         let n = vec.count
         self.init(h: n, w: n, value: val)
         for i in 0..<n {
@@ -35,7 +35,7 @@ public struct Matrix<T: Numeric & Equatable> : Equatable {
      If the indexes are out of range, the operator will return nil or ignore the
      assignment and print a warning.
      */
-    subscript(_ x: Int, _ y: Int) -> T? {
+    public subscript(_ x: Int, _ y: Int) -> T? {
         get {
             if 0<=x && x<size.0 && 0<=y && y<size.1 {
                 return data[x][y]

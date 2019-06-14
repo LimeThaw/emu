@@ -1,6 +1,6 @@
 // Created 2019-06-14 by LimeThaw
 
-func FordFulkerson<T: Numeric & Comparable>(source: [T], mid: Matrix<T>, sink: [T]) -> Matrix<T> {
+public func FordFulkerson<T: Numeric & Comparable>(source: [T], mid: Matrix<T>, sink: [T]) -> Matrix<T> {
     
     // Get the dimensions of our graph
     let m = source.count
