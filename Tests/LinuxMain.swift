@@ -4,6 +4,7 @@ import XCTest
 //@testable import threadsafeTests
 
 XCTMain([
+    testCase(fordFulkersonTests.allTests),
     testCase(insertionSortTests.allTests),
     testCase(QueueTests.allTests),
     testCase(MatrixTests.allTests),
