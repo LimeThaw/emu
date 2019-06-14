@@ -53,6 +53,12 @@ public struct Matrix<T: Numeric & Equatable> : Equatable {
         }
     }
     
+    /// Returns the sum of all elements in the matrix
+    public func sum() -> T {
+        let arr = data.reduce([], +)
+        return Array(arr[1...]).reduce(arr[0], +)
+    }
+    
     /**
      Equal operator making matrices equatable. Two matrices are equal iff they have
      the same dimensions and all entries match.
