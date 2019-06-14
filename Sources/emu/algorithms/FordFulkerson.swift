@@ -13,9 +13,9 @@ public func FordFulkerson<T: Numeric & Comparable>(source: [T], mid: Matrix<T>, 
     var tcaps = sink
     
     // The variables that store the current flow
-    var sf = Array(repeating: T(exactly: 0)!, count: m)
-    var tf = Array(repeating: T(exactly: 0)!, count: n)
-    var af = Matrix<T>(h: m, w: n, value: T(exactly: 0)!)
+    var sf = Array<T>(repeating: 0, count: m)
+    var tf = Array<T>(repeating: 0, count: n)
+    var af = Matrix<T>(h: m, w: n, value: 0)
     
     // Cycle through all posible pairings
     for i in 0..<m {
