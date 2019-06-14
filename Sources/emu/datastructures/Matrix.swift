@@ -5,7 +5,7 @@ import Rainbow
  All matrices are row-major, so the first coordinate indexes the row, and the second
  indexes the column.
  */
-public struct Matrix<T: Numeric> {
+public struct Matrix<T: Numeric & Equatable> : Equatable {
 
     /// The size of the matrix
     let size: (Int, Int)
@@ -16,6 +16,18 @@ public struct Matrix<T: Numeric> {
     init(h: Int, w: Int, value: T) {
         size = (h, w)
         data = Array(repeating: Array(repeating: value, count: w), count: h)
+    }
+    
+    /**
+     Initializer creating a diagoal matrix where the values on the diagonal are
+     given as a vector and the rest of the entries are a given default value
+     */
+    init(diag vec: [T], def val: T) {
+        let n = vec.count
+        self.init(h: n, w: n, value: val)
+        for i in 0..<n {
+            data[i][i] = vec[i]
+        }
     }
     
     /**
@@ -39,6 +51,32 @@ public struct Matrix<T: Numeric> {
                 //Thread.callStackSymbols.forEach{print($0)}
             }
         }
+    }
+    
+    /**
+     Equal operator making matrices equatable. Two matrices are equal iff they have
+     the same dimensions and all entries match.
+     */
+    public static func == (lhs: Matrix<T>, rhs: Matrix<T>) -> Bool {
+    
+        // Equal matrices must have the same size
+        if lhs.size != rhs.size {
+            return false
+        }
+        
+        // Compare all values entry-wise
+        for i in 0..<lhs.size.0 {
+            for j in 0..<lhs.size.1 {
+                if lhs[i, j]! != rhs[i, j]! {
+                    // If any of them don't match, the matrices are not equal
+                    return false
+                }
+            }
+        }
+        
+        // If we reach this, all entries are equal
+        return true
+        
     }
 
 }
