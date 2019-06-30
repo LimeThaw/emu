@@ -9,5 +9,6 @@ XCTMain([
     testCase(QueueTests.allTests),
     testCase(MatrixTests.allTests),
     testCase(PFAVLTreeTests.allTests),
-    testCase(quicksortTests.allTests)
+    testCase(quicksortTests.allTests),
+    testCase(bfsTests.allTests),
 ])
