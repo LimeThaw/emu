@@ -11,7 +11,7 @@ class bfsTests: XCTestCase {
     
     func testTrivialExample() {
 		let m = Matrix<Double>(diag: [0, 0], def: 1)
-		XCTAssertEqual(BFS(adjacency: m, source: 0, sink: 1), [0, 1]);
+		XCTAssertEqual(BFS(adjacency: m, source: 0, sink: 1)!, [0, 1]);
     }
     
     func testLoopExample() {
@@ -20,7 +20,7 @@ class bfsTests: XCTestCase {
 		m[1, 2] = 1.0
 		m[2, 1] = 1.0
 		m[2, 3] = 1.0
-		XCTAssertEqual(BFS(adjacency: m, source: 0, sink: 3), [0, 1, 2, 3]);
+		XCTAssertEqual(BFS(adjacency: m, source: 0, sink: 3)!, [0, 1, 2, 3]);
     }
     
     func testfail() {
