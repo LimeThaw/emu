@@ -31,6 +31,16 @@ public struct Matrix<T: Numeric & Equatable> : Equatable {
     }
     
     /**
+     Initializer converting a 2D array into a Matrix. Simply embeds the given data
+     and enables matrix operations on it.
+     */
+    public init(values: [[T]]) {
+        assert(!values.map({ $0.count == values[0].count }).contains(false))
+        size = (values.count, values[0].count)
+        data = values
+    }
+    
+    /**
      Subscript operator for getting and setting values in the matrix.
      If the indexes are out of range, the operator will return nil or ignore the
      assignment and print a warning.
@@ -51,6 +61,15 @@ public struct Matrix<T: Numeric & Equatable> : Equatable {
                 //Thread.callStackSymbols.forEach{print($0)}
             }
         }
+    }
+    
+    /**
+     Subscript operator using index lists. Can be used to get slices from the matrix.
+     Returns a new matrix with the values indexed by all pairs of indices from the
+     lists.Cannot be used to assign values to the matrix.
+     */
+    public subscript(_ x: Range<Int>, _ y: Range<Int>) -> Matrix<T> {
+        return Matrix(values: data[x].map({ Array($0[y]) }))
     }
     
     /// Returns the sum of all elements in the matrix
