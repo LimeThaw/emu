@@ -28,5 +28,5 @@ All test functions should have meaningful names and start with "test", like test
 
 ## Usage
 
-The code is written for Swift 4. To build and test simply navigate to the root directory
+The code is written for Swift 5. To build and test simply navigate to the root directory
 and run `swift build && swift test`.
