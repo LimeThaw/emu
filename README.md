@@ -1,5 +1,3 @@
-# emu [![Build Status](https://travis-ci.org/LimeThaw/emu.svg?branch=master)](https://travis-ci.org/LimeThaw/emu)
-
 This little project is meant as a fun little collaborative library for data structures and
 algorithms. Whoever feels like it is welcome to contribute some code, and anyone can use
 it in their programs.
