@@ -7,6 +7,7 @@ XCTMain([
     testCase(insertionSortTests.allTests),
     testCase(QueueTests.allTests),
     testCase(MatrixTests.allTests),
+    testCase(StackTests.allTests),
     testCase(PFAVLTreeTests.allTests),
     testCase(quicksortTests.allTests),
     testCase(bfsTests.allTests),
